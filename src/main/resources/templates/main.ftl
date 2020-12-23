@@ -8,25 +8,27 @@
 </div>
 <div>
     <form method="post">
-        <input type="text" name="text" placeholder="Введите сообщение" />
-        <input type="text" name="tag" placeholder="Тэг">
+        <input type="text" name="name" placeholder="Кличка животного" />
+        <input type="text" name="kind" placeholder="Вид">
+        <input type="text" name="breed" placeholder="Порода">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <button type="submit">Добавить</button>
     </form>
 </div>
-<div>Список сообщений</div>
+<div>Список животных</div>
 <form method="get" action="/main">
-    <input type="text" name="filter" value="${filter}">
+    <input type="text" name="filter" value="${filter!""}">
     <button type="submit">Найти</button>
 </form>
-<#list messages as message>
+<#list pets as pet>
 <div>
-    <b>${message.id}</b>
-    <span>${message.text}</span>
-    <i>${message.tag}</i>
-    <strong>${message.authorName}</strong>
+    <b>${pet.id}</b>
+    <span>${pet.name}</span>
+    <i>${pet.kind}</i>
+    <i>${pet.breed}</i>
+    <strong>${pet.masterName}</strong>
 </div>
 <#else>
-No message
+No pets
 </#list>
 </@c.page>

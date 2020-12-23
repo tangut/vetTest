@@ -1,8 +1,8 @@
 package com.controller;
 
-import com.domain.Message;
+import com.domain.Pet;
 import com.domain.User;
-import com.repos.MessageRepo;
+import com.repos.PetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,9 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+
     @Autowired
-    private MessageRepo messageRepo;
+    private PetRepo petRepo;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
@@ -25,34 +26,32 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Pet> pets = petRepo.findAll();
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
+            pets = petRepo.findByKind(filter);
         } else {
-            messages = messageRepo.findAll();
+            pets = petRepo.findAll();
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("pets", pets);
         model.addAttribute("filter", filter);
 
         return "main";
     }
 
+
     @PostMapping("/main")
-    public String add(
-            @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Map<String, Object> model
-    ) {
-        Message message = new Message(text, tag, user);
+    public String add(@AuthenticationPrincipal User user, @RequestParam String name, @RequestParam String kind, @RequestParam String breed, Map<String, Object> model) {
+        Pet pet = new Pet(name, kind, breed, user);
 
-        messageRepo.save(message);
+        petRepo.save(pet);
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Pet> pets = petRepo.findAll();
 
-        model.put("messages", messages);
+        model.put("pets", pets);
 
         return "main";
     }
+
 }
