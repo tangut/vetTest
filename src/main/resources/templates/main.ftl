@@ -22,10 +22,9 @@
 </form>
 <#list pets as pet>
 <div>
-    <b>${pet.id}</b>
     <span>${pet.name}</span>
-    <i>${pet.kind}</i>
-    <i>${pet.breed}</i>
+    <span>${pet.kind}</span>
+    <span>${pet.breed}</span>
     <strong>${pet.masterName}</strong>
 </div>
 <#else>

@@ -36,17 +36,16 @@ public class UserController {
         return "userEdit";
     }
 
+    @GetMapping("/error")
+    public String errorPage(){
+        return "error";
+    }
+
     @PostMapping
-    public String userSave(
-            @RequestParam String username,
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
-    ) {
+    public String userSave(@RequestParam String username, @RequestParam Map<String, String> form, @RequestParam("userId") User user) {
         user.setUsername(username);
 
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
+        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
 
         user.getRoles().clear();
 
@@ -60,4 +59,5 @@ public class UserController {
 
         return "redirect:/user";
     }
+
 }
